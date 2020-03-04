@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple To do list</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+	<style type="text/css">
+		.container{
+			padding:20px;
+		}
+		.is-completed{
+			text-decoration: line-through;
+		}
+	</style>
+	<div id="app">
+		<div class="container">
+			<label for="addTask">Add Tasks</label>
+	    	<input type="text" class="form-control" id="addTask" placeholder="Task description" v-model="newTask.description">
+	   		<button type="submit" v-on:click="addTask" class="btn btn-primary" style="margin-top: 10px">Add</button>
+			<hr>
+			<div class="row">
+				<div class="col-md-6">
+					<h3>list of To do </h3>
+					<div class="custom-control custom-checkbox" v-for="task in filterIncompletedTasks">
+					    <input type="checkbox" class="custom-control-input" :id="task.id" v-on:change="toggleClass(task)" :checked="task.completed">
+					    <label :class="[{ 'is-completed' : task.completed }, 'custom-control-label']" :for="task.id">{{ task.description }}</label>
+					</div>
+					<p v-if="!filterIncompletedTasks.length">You completed all tasks! Youpi.</p>
+					
+				</div>
+				<div class="col-md-6">
+					<h3>Completed tasks</h3>
+					<div class="custom-control custom-checkbox" v-for="task in filterCompletedTasks">
+					    <input type="checkbox" class="custom-control-input" :id="task.id" v-on:change="toggleClass(task)" :checked="task.completed">
+					    <label :class="[{ 'is-completed' : task.completed }, 'custom-control-label']" :for="task.id">{{ task.description }}</label>
+					</div>
+					<p v-if="!filterCompletedTasks.length">You Have no copleted task, Good luck.</p>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el :"#app",
+			data :{
+ 				newTask :{
+			        description: '',
+			        completed: false
+			    },
+				tasks :[
+					{ id : 1 , description :'Lean vue js', completed : true },
+					{ id : 2 , description :'Master css', completed : false },
+					{ id : 3 , description :'Master laravel', completed : false },
+					{ id : 4 , description :'Master Apis', completed : false }
+				]
+			},
+			methods :{
+				addTask(){
+					this.tasks.push({id : ++this.tasks.length , description : this.newTask.description , completed : false});
+					this.newTask.description = '';
+				},
+				toggleClass(task){
+					task.completed = !task.completed ;
+				}
+			},
+			computed :{
+				filterCompletedTasks(){
+					return this.tasks.filter(task => task.completed);
+				},
+				filterIncompletedTasks(){
+					return this.tasks.filter(task => !task.completed);
+				}
+			}
+		})
+
+	</script>
+
+</body>
+</html>
