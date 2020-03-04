@@ -36,7 +36,7 @@
 					    <input type="checkbox" class="custom-control-input" :id="task.id" v-on:change="toggleClass(task)" :checked="task.completed">
 					    <label :class="[{ 'is-completed' : task.completed }, 'custom-control-label']" :for="task.id">{{ task.description }}</label>
 					</div>
-					<p v-if="!filterCompletedTasks.length">You Have no copleted task, Good luck.</p>
+					<p v-if="!filterCompletedTasks.length">You Have no completed task, Good luck.</p>
 					
 				</div>
 			</div>
